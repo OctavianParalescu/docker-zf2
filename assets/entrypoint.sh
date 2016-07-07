@@ -12,7 +12,6 @@ function say() {
     echo "[DOCKER-ZF2] $1"
 }
 
-
 if [ ! -e "$INIT_CHECK_FILE" ]; then
 
     say "this container seems to be uninitialized"

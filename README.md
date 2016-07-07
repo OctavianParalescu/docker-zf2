@@ -6,17 +6,12 @@ your Zend Framework 2 applications within a docker container.
 Although this image has configurations for production environments included,
 it's main purpose is to quickly start developing a ZF2 application.  
 If you decide to use this image for setting up a production environment, be sure to excessively test if
-your application runs without problems in this environment.
+your application runs without problems in this environment and also change the exposed port
+in the Dockerfile from 8085 (or whatever port you used for your app on dev) to 80.
 
 ## Features
-* PHP 5.5 including the following additional extensions
-  * php5-mysql
-  * php5-sqlite
-  * php5-curl
-  * php5-intl
-  * php5-xdebug
-* Apache 2.4 including
-  * mod_rewrite
+* PHP 5.5 including multiple extensions (see Dockerfile)
+* Apache 2.4 including mod_rewrite
 * Config for DEV and PROD (*not recommended*) usage
   * DEV
     * xdebug configured with remote_connect_back
@@ -26,13 +21,19 @@ your application runs without problems in this environment.
 
 ## Running your ZF2 application in Docker
 
-Run your docker container and adjust `/home/user/git/your-zf2-app`
-to match the local path to your ZF2 Application root.
+### New project
+```bash
+cd /path/to/new/project/directory
+composer create-project --stability="dev" 
+         zendframework/skeleton-application .
+sudo docker run -d -p 8085:80 -v $(pwd):/zf2-app octavianparalescu/docker-zf2
+```
 
+### Existing project
 ```bash
 cd /home/user/your-zf2-app
-sudo docker run -d -p 8080:80 \
-        -v $(pwd):/zf2-app maglnet/docker-zf2
+sudo docker run -d -p 8085:80 \
+        -v $(pwd):/zf2-app octavianparalescu/docker-zf2
 ```
 
 ### Options / environment variables to fine tune the config
@@ -41,23 +42,9 @@ docker run \
     -e DOCKER_ZF2_ENV="DEV" \ # DEV|PROD copies dev or prod config to /etc (default:DEV)
     -e PHP_MODS_DISABLE="xdebug sqlite" # explicitly disable php modules (space separated list of modules)
     -e PHP_MODS_ENABLE="mysql opcache" # explicitly enable php modules (space separated list of modules)
-
 ```
 
-## Examples
-
-### Example with ZF2 Skeleton Application
-
-```bash
-curl -s https://getcomposer.org/installer | php --
-php composer.phar create-project \
-        -sdev --repository-url="https://packages.zendframework.com" \
-        zendframework/skeleton-application zend-framework-skeleton
-cd zend-framework-skeleton
-sudo docker run -d -p 8080:80 -v $(pwd):/zf2-app maglnet/docker-zf2
-```
-
-Now visit http://localhost:8080 and check out your running
+Now visit http://localhost:8085 and check out your running
 Zend Skeleton Application.
 
 
