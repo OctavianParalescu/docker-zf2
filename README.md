@@ -23,18 +23,24 @@ in the Dockerfile from 8085 (or whatever port you used for your app on dev) to 8
 
 ### New project
 ```bash
-cd /path/to/new/project/directory
-composer create-project --stability="dev" 
-         zendframework/skeleton-application .
+cd /home/user/new-zf2-app
+composer create-project --stability="dev" zendframework/skeleton-application .
 sudo docker run -d -p 8085:80 -v $(pwd):/zf2-app octavianparalescu/docker-zf2
 ```
+
+Now visit http://localhost:8085 and check out your running
+Zend Skeleton Application.
 
 ### Existing project
 ```bash
 cd /home/user/your-zf2-app
-sudo docker run -d -p 8085:80 \
-        -v $(pwd):/zf2-app octavianparalescu/docker-zf2
+sudo docker run -d -p 8085:80 -v $(pwd):/zf2-app octavianparalescu/docker-zf2
 ```
+
+### Using Docker for Windows
+Docker for Windows should run like Docker for Mac or Linux. The difference in this case
+would be that you should replace the env var "$(pwd)" in the docker run command with the
+counterpart in Windows "%cd%" and also remove the "sudo" part.
 
 ### Options / environment variables to fine tune the config
 ```bash
@@ -44,61 +50,9 @@ docker run \
     -e PHP_MODS_ENABLE="mysql opcache" # explicitly enable php modules (space separated list of modules)
 ```
 
-Now visit http://localhost:8085 and check out your running
-Zend Skeleton Application.
-
-
-### Example configuration linking to a MySQL container
-
-This requires you to take the following steps:
-* Step 1: Start a MySQL Container that will be used by your ZF2 Application
-* Step 2: Import your database schema
-* Step 3: Start your ZF2 Application Container and link it to the MySQL container
-* Step 4: Adjust your ZF2 configuration
-
-**Step 1: Start your MySQL container**
-
-```bash
-sudo docker run -P --name zf2-mysql -e MYSQL_ROOT_PASSWORD=mysecretpassword -d mysql
-```
-
-**Step 2: Import your database schema**  
-Let's first check on which port the MySQL Server is listening
-(it's port `49154` in this case):
-
-```bash
-# sudo docker ps
-CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                     NAMES
-137ca5116426        mysql:latest        /entrypoint.sh mysql   6 seconds ago       Up 6 seconds        0.0.0.0:49154->3306/tcp   zf2-mysql
-```
-You can now connect to `localhost:49154` with your favorite MySQL tool and import your schema.
-
-
-**Step 3: Start your ZF2 application container linked to MySQL**
-
-```bash
-sudo docker run --name zf2-web --link zf2-mysql:mysql -d -p 8888:80 -v $(pwd):/zf2-app maglnet/docker-zf2
-```
-
-**Step 4: Adjust your ZF2 configuration**  
-Configure your application to use MySQL User `root` and get the password
-from the linked MySQL container by `getenv('MYSQL_ENV_MYSQL_ROOT_PASSWORD')`
-
-Since IP-Addresses are provided dynamically, you need to get the MySQL containers
-IP-Address through `getenv('MYSQL_PORT_3306_TCP_ADDR')`:
-
-```php
-return array(
-    'db' => array(
-        [...]
-        'dsn'            => 'mysql:dbname=zf2-tutorial;host=' . getenv('MYSQL_PORT_3306_TCP_ADDR'),
-        'password'       => getenv('MYSQL_ENV_MYSQL_ROOT_PASSWORD'),
-        [...]
-);
-```
-
 ## Contributing
-Feel free to open issues or fork and create a PR.
+Feel free to open issues or fork and create a PR. This is as well forked from https://github.com/maglnet/docker-zf2
+which is a bit outdated.
 
 
 ## License
