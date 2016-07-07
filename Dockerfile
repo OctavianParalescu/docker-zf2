@@ -6,8 +6,7 @@ MAINTAINER Octavian Paralescu <me@octav.info>
 # update and install packages
 RUN apt-get -qq update \
         && apt-get -qq upgrade -y \
-        && apt-get -qq install -y apache2 php5 curl libapache2-mod-php5 
-        						  php5-mysql php5-curl php5-intl php5-xdebug php5-gd
+        && apt-get -qq install -y apache2 php5 curl libapache2-mod-php5 php5-mysql php5-curl php5-intl php5-xdebug php5-gd
 
 # setting apache env vars
 ENV APACHE_CONFDIR /etc/apache2

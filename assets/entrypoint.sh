@@ -2,7 +2,7 @@
 
 export DOCKER_ZF2_ENV=${DOCKER_ZF2_ENV:-"DEV"}
 
-INIT_CHECK_FILE="/etc/DOCKER-INITIALIZED"
+INIT_CHECK_FILE="/DOCKER-INITIALIZED"
 ASSET_DIR_DEFAULT_ETC="/assets/_default/etc/."
 
 PHP_MODS_DISABLE=(${PHP_MODS_DISABLE:-""})
@@ -11,6 +11,8 @@ PHP_MODS_ENABLE=(${PHP_MODS_ENABLE:-""})
 function say() {
     echo "[DOCKER-ZF2] $1"
 }
+
+say "loading"
 
 if [ ! -e "$INIT_CHECK_FILE" ]; then
 
