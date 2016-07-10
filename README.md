@@ -10,7 +10,7 @@ your application runs without problems in this environment and also change the e
 in the Dockerfile from 8085 (or whatever port you used for your app on dev) to 80.
 
 ## Features
-* PHP 5.5 including multiple extensions (see Dockerfile)
+* PHP 5.6 including multiple extensions (see Dockerfile)
 * Apache 2.4 including mod_rewrite
 * Config for DEV and PROD (*not recommended*) usage
   * DEV
