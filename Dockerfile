@@ -30,6 +30,8 @@ RUN find "$APACHE_CONFDIR" -type f -exec sed -ri ' \
         s!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g; \
         ' '{}' ';'
 
+RUN echo "date.timezone = Europe/London" > /usr/local/etc/php/php.ini
+
 EXPOSE 80
 
 ENTRYPOINT ["/assets/entrypoint.sh"]
