@@ -7,7 +7,7 @@ RUN apt-get -qq update \
         && apt-get -qq upgrade -y \
         && apt-get install -y libpng12-dev libjpeg-dev && rm -rf /var/lib/apt/lists/* \
         && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
-        && docker-php-ext-install gd mysqli opcache
+        && docker-php-ext-install gd mysqli opcache pdo_mysql
 
 # adding assets
 ADD assets/ /assets/
