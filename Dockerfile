@@ -7,7 +7,11 @@ RUN apt-get -qq update \
         && apt-get -qq upgrade -y \
         && apt-get install -y libpng12-dev libjpeg-dev && rm -rf /var/lib/apt/lists/* \
         && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
-        && docker-php-ext-install gd mysqli opcache pdo_mysql
+        && docker-php-ext-install gd mysqli opcache pdo_mysql \
+        && yes | pecl install xdebug \
+        && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+        && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+        && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # adding assets
 ADD assets/ /assets/
