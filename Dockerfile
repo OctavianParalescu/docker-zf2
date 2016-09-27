@@ -7,11 +7,12 @@ RUN apt-get -qq update \
         && apt-get -qq upgrade -y \
         && apt-get install -y libpng12-dev libjpeg-dev libxml2-dev libmcrypt-dev && rm -rf /var/lib/apt/lists/* \
         && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
-        && docker-php-ext-install gd mysqli opcache pdo_mysql soap mcrypt \
+        && docker-php-ext-install gd mysqli pdo_mysql soap mcrypt \
         && yes | pecl install xdebug \
         && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
         && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-        && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+        && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
+        && apt-get install phpunit
 
 # adding assets
 ADD assets/ /assets/
