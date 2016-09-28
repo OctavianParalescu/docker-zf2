@@ -11,10 +11,7 @@ RUN apt-get -qq update \
         && yes | pecl install xdebug \
         && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
         && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-        && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
-        && wget https://phar.phpunit.de/phpunit.phar \
-        && chmod +x phpunit.phar \
-        && mv phpunit.phar /usr/local/bin/phpunit
+        && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # adding assets
 ADD assets/ /assets/
